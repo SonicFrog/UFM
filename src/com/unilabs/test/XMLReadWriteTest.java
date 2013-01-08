@@ -16,6 +16,8 @@ import org.junit.BeforeClass;
 import org.junit.Test;
 
 import com.unilabs.entities.UnilabsCar;
+import com.unilabs.io.CompressedXMLReader;
+import com.unilabs.io.CompressedXMLWriter;
 import com.unilabs.io.ODSInputStream;
 import com.unilabs.io.ODSReader;
 import com.unilabs.io.XMLReader;
@@ -98,6 +100,18 @@ public class XMLReadWriteTest {
 		for(int i = 0 ; i < car[singleTestIndex].getPleins().size() ; i++) {
 			assertTrue("Plein n°" + i + " is different", car[singleTestIndex].getPleins().get(i).equals(read.getPleins().get(i)));
 		}
+	}
+	
+	@Test
+	public void compressionTest() throws Exception {
+		File io = File.createTempFile("ufm", ".ufm");
+		CompressedXMLWriter w = new CompressedXMLWriter(io);
+		ArrayList<UnilabsCar> read = new ArrayList<UnilabsCar>();
+		CompressedXMLReader r;
+		for(UnilabsCar c : car) 
+			w.writeCar(c);
+		w.flush();
+		r = new CompressedXMLReader(io, pc);
 	}
 
 	@Test(expected=com.unilabs.io.CorruptedFileException.class)

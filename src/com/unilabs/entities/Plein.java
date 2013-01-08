@@ -181,7 +181,7 @@ public class Plein implements Comparable<Plein>, Serializable {
 
 	@Override
 	public String toString() {
-		return "Plein [date=" + date + ", amount=" + fuelAmount + ", price="
+		return "Plein (" + super.toString() + ") [date=" + date + ", amount=" + fuelAmount + ", price="
 				+ price + "]";
 	}
 }

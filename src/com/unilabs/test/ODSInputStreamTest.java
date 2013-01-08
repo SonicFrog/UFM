@@ -88,7 +88,6 @@ public class ODSInputStreamTest {
 		int size;
 		while(true) {
 			size = dis.readInt();
-			System.err.println("Allocating " + size + " bytes");
 			buffer = new byte[size];
 			dis.read(buffer);
 		}

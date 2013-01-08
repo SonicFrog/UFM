@@ -53,7 +53,7 @@ public class XMLReader implements Reader {
 	public static final String PLEIN_PRICE_ATTRIB = "price";
 
 	private PlateChecker pc;
-	private InputStream in;
+	protected InputStream in;
 	private Document xmlDoc;
 	private DocumentBuilder db;
 	private DocumentBuilderFactory dbf = DocumentBuilderFactory.newInstance();

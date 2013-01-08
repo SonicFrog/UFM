@@ -23,14 +23,14 @@ import com.unilabs.entities.UnilabsCar;
 
 public class XMLWriter implements Writer {
 
-	private OutputStream os;
-	private Document xmlDoc;
-	private DocumentBuilder db;
-	private DocumentBuilderFactory dbf;
-	private Transformer tf;
-	private TransformerFactory tff;
+	protected OutputStream os;
+	protected Document xmlDoc;
+	protected DocumentBuilder db;
+	protected DocumentBuilderFactory dbf;
+	protected Transformer tf;
+	protected TransformerFactory tff;
 	
-	private Element rootNode;
+	protected Element rootNode;
 	
 	public XMLWriter(OutputStream os) throws IOException {
 		this.os = os;
@@ -90,5 +90,6 @@ public class XMLWriter implements Writer {
 			e.printStackTrace();
 			throw new CorruptedFileException("Le format XML n'est pas supporté sur votre plateforme");
 		}
+		os.flush();
 	}
 }
