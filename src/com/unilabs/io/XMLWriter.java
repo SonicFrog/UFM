@@ -75,7 +75,6 @@ public class XMLWriter implements Writer {
 			carNode.appendChild(plein);
 		}
 		rootNode.appendChild(carNode);
-		flush();
 	}
 	
 	/**
