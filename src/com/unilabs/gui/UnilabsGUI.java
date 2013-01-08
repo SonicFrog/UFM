@@ -50,24 +50,24 @@ public class UnilabsGUI extends JFrame implements WindowListener{
 
 	public UnilabsGUI() {
 		super("Gestionnaire de flotte automobile Unilabs");
+		addWindowListener(this);
+		setResizable(true);
+		setSize(defaultDimension);
+		setJMenuBar(new UnilabsMenubar());
+		setLocationRelativeTo(null);
 		try {
-			addWindowListener(this);
-			setResizable(true);
-			setSize(defaultDimension);
-			setJMenuBar(new UnilabsMenubar());
-			setLocationRelativeTo(null);
-			image = ImageIO.read(new File(ICON));
-			setIconImage(image);
-			UnilabsFleetManager.getInstance().setGUI(this);
-			nodata.setFont(new Font("Arial", Font.BOLD, 32));
-			nodata.add(new JLabel(("Aucune donnée chargée")));
-			setContentPane(nodata);
-			setResizable(true);
-			setVisible(true);
-			built = true;
-		} catch (IOException e) {
-			System.err.println("Votre installation est peut être défectueuse : Il manque des fichiers.");
-		}
+                    image = ImageIO.read(new File(ICON));
+                } catch (IOException e) {
+                    System.out.println("L'icone du programme est manquante !");
+                }
+		setIconImage(image);
+		UnilabsFleetManager.getInstance().setGUI(this);
+		nodata.setFont(new Font("Arial", Font.BOLD, 32));
+		nodata.add(new JLabel(("Aucune donnée chargée")));
+		setContentPane(nodata);
+		setResizable(true);
+		setVisible(true);
+		built = true;
 	}
 
 	public void repaint() {
@@ -128,12 +128,6 @@ public class UnilabsGUI extends JFrame implements WindowListener{
 		UnilabsFleetManager ufm = UnilabsFleetManager.getInstance();
 		try {
 			UIManager.setLookAndFeel(UIManager.getSystemLookAndFeelClassName());
-			if(System.getProperty("os.name").equals("Linux")) {
-				//Definition manuelle du LookAndFeel pour eviter l'horreur metal de Java si SystemLookAndFeel foire
-				//Bon c'est moche aussi mais au moins on a des vrais polices lissees.
-				System.out.println("System is linux setting theme to gtk.");
-				UIManager.setLookAndFeel("com.sun.java.swing.plaf.gtk.GTKLookAndFeel");
-			}
 			gui = new UnilabsGUI();
 		} catch (Exception e) {
 			Message.showErrorMessage(gui, "Fatal Error", "Veuillez contacter le support technique avec les informations suivantes : \n" 
