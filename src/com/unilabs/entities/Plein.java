@@ -19,6 +19,8 @@ public class Plein implements Comparable<Plein>, Serializable {
 
 	public static final SimpleDateFormat daySdf = new SimpleDateFormat("d-M-y");
 	public static final SimpleDateFormat hourSdf = new SimpleDateFormat("H:m");
+	public static final char SEPARATOR = '-';
+	
 	private static final long serialVersionUID = -8255744173521635807L;
 	private Date date;
 	private Calendar calendar;
@@ -42,9 +44,13 @@ public class Plein implements Comparable<Plein>, Serializable {
 	public Plein(String date, String hour, double fuelAmount, double price, int kilometers) {
 		//TODO Ajouter le support de l'heure
 		int h = 0, minutes = 0;
-		int day = Integer.parseInt(date.substring(0, 2));
-		int month = Integer.parseInt(date.substring(4, 5));
-		int year = Integer.parseInt(date.substring(7));
+		int firstDash = date.indexOf(SEPARATOR);
+		int secDash = date.indexOf(SEPARATOR, firstDash + 1);
+		if(firstDash == 0 || secDash == 0) 
+			throw new IllegalArgumentException(date + " n'est pas une date valide!");
+		int day = Integer.parseInt(date.substring(0, firstDash));
+		int month = Integer.parseInt(date.substring(firstDash + 1, secDash));
+		int year = Integer.parseInt(date.substring(secDash + 1));
 		if(hour != null) {
 			h = Integer.parseInt(hour.substring(0, hour.indexOf(':')));
 			minutes = Integer.parseInt(hour.substring(hour.indexOf(':') + 1, hour.length()));
