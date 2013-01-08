@@ -25,6 +25,9 @@ public class SimpleWriter implements Writer {
 	
 	public void writeCar(UnilabsCar car) throws IOException {
 		out.writeObject(car);
+	}
+	
+	public void flush() throws IOException {
 		out.flush();
 	}
 }

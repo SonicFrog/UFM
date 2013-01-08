@@ -18,12 +18,12 @@ import com.unilabs.gui.FileChooser;
 import com.unilabs.gui.Message;
 import com.unilabs.gui.UnilabsGUI;
 import com.unilabs.gui.dialog.ExitDialog;
+import com.unilabs.io.CompressedXMLReader;
+import com.unilabs.io.CompressedXMLWriter;
 import com.unilabs.io.ODSInputStream;
 import com.unilabs.io.ODSReader;
 import com.unilabs.io.PropertyReader;
 import com.unilabs.io.Reader;
-import com.unilabs.io.SimpleReader;
-import com.unilabs.io.SimpleWriter;
 import com.unilabs.io.Writer;
 import com.unilabs.security.PlateChecker;
 import com.unilabs.security.SwissPlate;
@@ -226,7 +226,7 @@ public class UnilabsFleetManager {
 		gui.getContentPane().setCursor(new Cursor(Cursor.WAIT_CURSOR));
 		try {
 			bis = new BufferedInputStream(new FileInputStream(f));
-			r = new SimpleReader(bis);
+			r = new CompressedXMLReader(bis, pc);
 			while(true) {
 				addCar(r.readCar());
 			}
@@ -259,7 +259,7 @@ public class UnilabsFleetManager {
 				}
 			}
 			OutputStream bfis = new BufferedOutputStream(new FileOutputStream(f));
-			Writer w = new SimpleWriter(bfis);
+			Writer w = new CompressedXMLWriter(bfis);
 			output = f;
 			System.out.println("Writing " + cars.values().size()+ " cars");
 			int i = 0;
@@ -267,6 +267,7 @@ public class UnilabsFleetManager {
 				w.writeCar(c);
 				i++;
 			}
+			w.flush();
 			System.out.println("Wrote " + i + " cars");
 		} catch (FileNotFoundException e) {
 			e.printStackTrace();

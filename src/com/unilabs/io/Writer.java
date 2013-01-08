@@ -21,4 +21,5 @@ public interface Writer {
 	 * @throws IOException
 	 */
 	public void writeCar(UnilabsCar c) throws IOException;
+	public void flush() throws IOException;
 }
