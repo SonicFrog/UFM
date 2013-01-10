@@ -27,6 +27,7 @@ import com.unilabs.gui.action.ModifyGUIAction;
 import com.unilabs.gui.action.NewGUIAction;
 import com.unilabs.gui.action.OpenBinaryGUIAction;
 import com.unilabs.gui.action.OpenODSGUIAction;
+import com.unilabs.gui.action.OptionAction;
 import com.unilabs.gui.action.PriceGraphAction;
 import com.unilabs.gui.action.RedoGUIAction;
 import com.unilabs.gui.action.SaveAsGUIAction;
@@ -96,6 +97,7 @@ public class UnilabsMenubar extends JMenuBar {
 	private JMenuActionItem mFleet = new JMenuActionItem("Moyenne pour la flotte", new FleetAverageAction());
 	private JMenuActionItem mTotal = new JMenuActionItem("Totaux pour la flotte", new FleetTotalsAction());
 	private JMenuActionItem mClient = new JMenuActionItem("Moyenne pour un client", new ClientAverageDropdownAction());
+	private JMenuActionItem mOption = new JMenuActionItem("Options", new OptionAction());
 	
 	private JMenuActionItem undo = new JMenuActionItem("Annuler", new UndoGUIAction());
 	private JMenuActionItem redo = new JMenuActionItem("Refaire", new RedoGUIAction());
@@ -176,6 +178,7 @@ public class UnilabsMenubar extends JMenuBar {
 		test.add(mFleet);
 		test.add(mTotal);
 		test.add(mClient);
+		test.add(mOption);
 
 		about.add(help);
 		about.add(intero);
