@@ -6,10 +6,11 @@ import java.io.BufferedOutputStream;
 import java.io.EOFException;
 import java.io.File;
 import java.io.FileInputStream;
-import java.io.FileNotFoundException;
 import java.io.FileOutputStream;
 import java.io.IOException;
+import java.io.InputStream;
 import java.io.OutputStream;
+import java.util.Vector;
 import java.util.concurrent.ConcurrentHashMap;
 
 import javax.swing.JOptionPane;
@@ -22,9 +23,9 @@ import com.unilabs.io.CompressedXMLReader;
 import com.unilabs.io.CompressedXMLWriter;
 import com.unilabs.io.ODSInputStream;
 import com.unilabs.io.ODSReader;
-import com.unilabs.io.PropertyReader;
 import com.unilabs.io.Reader;
 import com.unilabs.io.Writer;
+import com.unilabs.options.OptionStorage;
 import com.unilabs.security.PlateChecker;
 import com.unilabs.security.SwissPlate;
 
@@ -79,17 +80,15 @@ public class UnilabsFleetManager {
 	 */
 	private File output = null;
 
-	private String currency = "CHF";
-
-	private PropertyReader pr;
-
+	private OptionStorage os;
+	
 	public UnilabsFleetManager() {
 		cars = new ConcurrentHashMap<String, UnilabsCar>();
 		pc = new SwissPlate();
+		
 		try {
-			pr = new PropertyReader(PROPERTIES_FILE);
-			currency = (pr.getProperty(CURRENCY_KEY) == null) ? currency : pr.getProperty(CURRENCY_KEY);
-
+			os = new OptionStorage(PROPERTIES_FILE);
+			new FileChooser(UnilabsFleetManager.class.getProtectionDomain().getCodeSource().getLocation().getFile());
 		} catch (IOException e) {
 			Message.showErrorMessage("Erreur", "Le fichier de paramètres " + PROPERTIES_FILE + " est introuvable !");
 		}
@@ -223,10 +222,14 @@ public class UnilabsFleetManager {
 	public void openBinary(File f) {
 		BufferedInputStream bis;
 		Reader r;
+		Vector args = new Vector();
 		gui.getContentPane().setCursor(new Cursor(Cursor.WAIT_CURSOR));
 		try {
 			bis = new BufferedInputStream(new FileInputStream(f));
-			r = new CompressedXMLReader(bis, pc);
+			args.add(bis);
+			args.add(pc);
+			//r = new CompressedXMLReader(bis, pc);
+			r = os.getReader(args);
 			while(true) {
 				addCar(r.readCar());
 			}
@@ -259,21 +262,18 @@ public class UnilabsFleetManager {
 				}
 			}
 			OutputStream bfis = new BufferedOutputStream(new FileOutputStream(f));
-			Writer w = new CompressedXMLWriter(bfis);
+			Vector args = new Vector();
+			args.add(bfis);
+			Writer w = os.getWriter(args);
 			output = f;
-			System.out.println("Writing " + cars.values().size()+ " cars");
-			int i = 0;
 			for(UnilabsCar c : cars.values()) {
 				w.writeCar(c);
-				i++;
 			}
 			w.flush();
-			System.out.println("Wrote " + i + " cars");
-		} catch (FileNotFoundException e) {
-			e.printStackTrace();
 		} catch (IOException e) {
 			Message.showErrorMessage(gui, "Erreur lors de la sauvegarde", "Une erreur s'est produite lors de la sauvegarde : " + e.getLocalizedMessage());
 			e.printStackTrace();
+			return;
 		}
 		fileSaved = true;
 		gui.getContentPane().setCursor(new Cursor(Cursor.DEFAULT_CURSOR));
@@ -312,7 +312,11 @@ public class UnilabsFleetManager {
 	public void exit() {
 		if(!close())
 			return;
-		saveProperty();
+		try {
+			os.store();
+		} catch (IOException e) {
+			System.out.println("Impossible de sauvegarder vos préférences! " + e.getLocalizedMessage());
+		}
 		System.exit(0);
 	}
 
@@ -334,21 +338,17 @@ public class UnilabsFleetManager {
 	public String getSelectedCarPlate() {
 		return gui.getSelectedCar();
 	}
+	
+	public OptionStorage getOptions() {
+		return os;
+	}
 
 	public String getCurrency() {
-		return currency;
+		return os.getCurrency();
 	}
 
 	public boolean hasCars() {
 		return cars.size() > 0;
-	}
-
-	private void saveProperty() {
-		try {
-			pr.writeProperty(CURRENCY_KEY, currency);
-		} catch (IOException e) {
-			Message.showErrorMessage("Erreur", "Impossible de sauver les parametres : " + e.getLocalizedMessage());
-		}
 	}
 
 	public String getFileExtension() {
