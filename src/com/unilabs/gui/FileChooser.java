@@ -27,6 +27,12 @@ public class FileChooser extends JFileChooser {
 		setFileSelectionMode(JFileChooser.FILES_ONLY);
 	}
 	
+	public FileChooser(String path) {
+		super(path);
+		lastFile = new File(path);
+		setFileSelectionMode(JFileChooser.FILES_ONLY);
+	}
+	
 	public File getSelectedFile() {
 		lastFile = super.getSelectedFile();
 		return lastFile;
