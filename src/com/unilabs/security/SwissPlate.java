@@ -9,7 +9,7 @@ import java.io.Serializable;
  * @version 1.0
  *
  */
-public class SwissPlate implements PlateChecker, Serializable {
+public class SwissPlate extends PlateChecker implements Serializable {
 
 	private static final long serialVersionUID = 472104549971581569L;
 

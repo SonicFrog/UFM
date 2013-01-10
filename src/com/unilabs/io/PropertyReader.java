@@ -26,6 +26,10 @@ public class PropertyReader {
 		init();
 	}
 	
+	public PropertyReader(Properties p) {
+		prop = p;
+	}
+	
 	private void init() throws IOException {
 		prop = new Properties();
 		prop.load(new FileInputStream(propertyFile));
@@ -33,6 +37,10 @@ public class PropertyReader {
 	
 	public String getProperty(String key) {
 		return prop.getProperty(key);
+	}
+	
+	public String getProperty(String key, String defaultValue) {
+		return prop.getProperty(key, defaultValue);
 	}
 	
 	public void writeProperty(String key, String value) throws IOException {

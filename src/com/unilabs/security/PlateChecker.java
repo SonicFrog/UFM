@@ -5,6 +5,6 @@ package com.unilabs.security;
  * @author Ogier
  *
  */
-public interface PlateChecker {
-	public boolean validatePlate(String plate);
+public abstract class PlateChecker {
+	public abstract boolean validatePlate(String plate);
 }

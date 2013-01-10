@@ -2,7 +2,7 @@ package com.unilabs.security;
 
 import java.io.Serializable;
 
-public class DummyPlate implements PlateChecker, Serializable {
+public class DummyPlate extends PlateChecker implements Serializable {
 
 	private static final long serialVersionUID = 1L;
 
@@ -10,5 +10,4 @@ public class DummyPlate implements PlateChecker, Serializable {
 	public boolean validatePlate(String plate) {
 		return true;
 	}
-
 }
