@@ -11,16 +11,25 @@ import com.unilabs.gui.FileChooser;
 public class ExportDialog extends JDialog {
 
 	private static final long serialVersionUID = 4916168869711366927L;
+	
+	private static final String DEFAULT_FILETYPE = "Fichier UnilabsFleetManager (.ufm)";
+	private static final String DEFAULT_FILEDESC = "ufm";
+	
 	private FileChooser jfc = new FileChooser();
 	
 	public ExportDialog(JFrame parent, String title) {
 		super(parent, title);
-		init();
+		init(DEFAULT_FILETYPE, DEFAULT_FILEDESC);
 	}
 	
-	private void init() {
+	public ExportDialog(JFrame parent, String filename, String filetype) {
+		super(parent);
+		init(filename, filetype);
+	}
+	
+	private void init(String ftype, String fext) {
 		jfc.setMultiSelectionEnabled(false);
-		jfc.setFileFilter(new FileNameExtensionFilter("Fichier UnilabsFleetManager (.ufm)", "ufm"));
+		jfc.setFileFilter(new FileNameExtensionFilter(ftype, fext));
 		jfc.setToolTipText("Selectionnez où sauvegarder votre tableau");
 		jfc.showSaveDialog(getParent());
 	}
