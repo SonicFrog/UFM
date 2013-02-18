@@ -32,7 +32,12 @@ int main(int argc, char** argv) {
 	int fd;
 	int exitCode;
 
-	freopen(LOG_FILE, "w+", stdout);
+	if(chdir(dirname(argv[0])) < 0) { //Chdiring to the path the executable is in
+		perror("An error was encountered when starting UFM!");
+		abort();
+	}
+
+	freopen(LOG_FILE, "w+", stdout); //Redirecting both stdout and stderr to a log i can ask the users to send when they report a problem
 	freopen(LOG_FILE, "w+", stderr);
 
 	getenv_s(&javaPathLength, java, MAX_PATH, JAVA); //Reading the JAVA_HOME env variable
@@ -86,5 +91,5 @@ int GetStringRegKey(HKEY hKey, const char *strValueName, char* strValue) {
 }
 
 void NoJavaError() {
-	MessageBox(NULL, "Vous devez installer Java 6 ou supérieur pour utiliser UFM", "Erreur", MB_ERROR | MB_OK);
+	MessageBox(NULL, "Vous devez installer Java 7 ou supérieur pour utiliser UFM", "Erreur", MB_ERROR | MB_OK);
 }
