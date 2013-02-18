@@ -16,7 +16,7 @@ public class ExportGUIAction implements GUIAction {
 			Message.showWarningMessage("Aucune voiture chargée en mémoire !");
 			return;
 		}
-		ExportDialog jfc = new ExportDialog(UnilabsFleetManager.getInstance().getGUI(), null);
+		ExportDialog jfc = new ExportDialog(UnilabsFleetManager.getInstance().getGUI(), "Fichier de tableur OpenDocument", "ods");
 		if(jfc.getFile() == null) 
 			return;
 		tc = new TableCreator(TableCreator.createAverageTableModel(UnilabsFleetManager.getInstance().getCars()), jfc.getFile());
