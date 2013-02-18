@@ -16,9 +16,9 @@ public class ConsomationTableCellRenderer extends DefaultTableCellRenderer {
 		Object val = table.getValueAt(row, 2);
 		double d = (Double) val;
 		if(d > 6.5 || d < 3.6) {
-			cell.setBackground(Color.RED);
+			cell.setBackground(Color.ORANGE);
 		} else if(Double.isNaN(d) || Double.isInfinite(d)) {
-			cell.setBackground(Color.BLUE);
+			cell.setBackground(Color.CYAN);
 		} else {
 			cell.setBackground(Color.GREEN);
 		}
