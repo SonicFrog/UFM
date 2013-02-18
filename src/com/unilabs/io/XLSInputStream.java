@@ -33,7 +33,7 @@ public class XLSInputStream extends InputStream {
 	/**
 	 * Le tableau contenant les données lues depuis le fichier XLS dans le format standard
 	 */
-	private byte[] data;
+	private byte[] data = new byte[0];
 
 	private int lastRead = 0;
 
@@ -61,6 +61,9 @@ public class XLSInputStream extends InputStream {
 		return (data[lastRead] & 0xff);
 	}
 
+	public String[] getColumns() {
+		return columns;
+	}
 	
 	public void mark(int readlimit) {
 		marking = lastRead;
@@ -95,6 +98,8 @@ public class XLSInputStream extends InputStream {
 		
 		for(Cell c : titleRow) {
 			String cellValue = c.getRichStringCellValue().toString();
+			if(i == columnsIndex.length)
+				break;
 			if(cellValue.equals(columns[i])) {
 				columnsIndex[i] = c.getColumnIndex();
 				i++;
@@ -103,9 +108,24 @@ public class XLSInputStream extends InputStream {
 		
 		for(int j = 1 ; i < worksheet.getLastRowNum() ; i++) {
 			Row currentRow = worksheet.getRow(j);
+			Cell currentCell;
+			String data;
 			for(int col : columnsIndex) {
-				dos.writeInt(currentRow.getCell(col).getStringCellValue().length());
-				dos.writeBytes(currentRow.getCell(col).getStringCellValue());
+				currentCell = currentRow.getCell(col);
+				switch(currentCell.getCellType()) {
+					case Cell.CELL_TYPE_NUMERIC :
+						data = String.valueOf(currentCell.getNumericCellValue());
+						break;
+						
+					case Cell.CELL_TYPE_STRING :
+						data = currentCell.getStringCellValue();
+						break;
+						
+					default :
+						throw new CorruptedFileException("Un plein invalide a été detecté à la ligne " + currentCell.getRowIndex());
+				}
+				dos.writeInt(data.length());
+				dos.writeBytes(data);
 			}
 		}
 
