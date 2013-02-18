@@ -3,7 +3,7 @@ package com.unilabs.gui;
 import java.awt.BorderLayout;
 import java.awt.event.MouseAdapter;
 import java.awt.event.MouseEvent;
-import java.util.Enumeration;
+import java.util.Enumeration;fdsfdsfdsfs
 
 import javax.swing.JPanel;
 import javax.swing.JScrollPane;
@@ -53,7 +53,7 @@ public class CarScrollPane extends JPanel {
 	}
 	
 	/**
-	 * Crée le tableau et implémente le tri des lignes
+	 * Crï¿½e le tableau et implï¿½mente le tri des lignes
 	 */
 	private void makeTable() {
 		table = new JTable(model = TableCreator.createAverageTableModel(UnilabsFleetManager.getInstance().getCars()));
@@ -70,7 +70,7 @@ public class CarScrollPane extends JPanel {
 			tc.nextElement().setCellRenderer(new ConsomationTableCellRenderer());
 		}
 		table.repaint();
-		System.out.println("TableModel ré-instancié");
+		System.out.println("TableModel rï¿½-instanciï¿½");
 	}
 	
 	public void repaint() {
@@ -81,7 +81,7 @@ public class CarScrollPane extends JPanel {
 	}
 	
 	/**
-	 * Retourne l'index du tableau qui est selectionné
+	 * Retourne l'index du tableau qui est selectionnï¿½
 	 * @return
 	 */
 	public int getSelectedCarIndex() {
