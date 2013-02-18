@@ -3,3 +3,5 @@ bin/
 .project
 test.ufm
 config.properties
+UFM.jar
+ufm.jar
