@@ -5,7 +5,9 @@ import java.io.EOFException;
 import java.io.File;
 import java.io.IOException;
 import java.io.InputStream;
+import java.text.SimpleDateFormat;
 
+import org.apache.poi.hssf.usermodel.HSSFDateUtil;
 import org.apache.poi.openxml4j.exceptions.InvalidFormatException;
 import org.apache.poi.ss.usermodel.Cell;
 import org.apache.poi.ss.usermodel.Row;
@@ -40,6 +42,8 @@ public class XLSInputStream extends InputStream {
 	private String[] columns;
 	
 	private int marking = 0;
+	
+	private int[] indexes;
 
 	public XLSInputStream(String path, String[] columns) {
 		input = new File(path);
@@ -55,14 +59,19 @@ public class XLSInputStream extends InputStream {
 		if(lastRead == data.length && !read) {
 			fill();
 			read = true;
-		} else {
+		} else if(lastRead == data.length) {
+			System.out.println(getClass().getName() + ": Reaching end of buffer at " + lastRead);
 			throw new EOFException();
 		}
-		return (data[lastRead] & 0xff);
+		return (data[lastRead++] & 0xff);
 	}
 
 	public String[] getColumns() {
 		return columns;
+	}
+	
+	public int[] getColumnsIndex() {
+		return indexes;
 	}
 	
 	public void mark(int readlimit) {
@@ -85,7 +94,7 @@ public class XLSInputStream extends InputStream {
 		Workbook wb;
 		Row titleRow;
 		int i = 0;
-		int columnsIndex[] = new int[columns.length];
+		indexes = new int[columns.length];
 		
 		try {
 			wb = WorkbookFactory.create(input);
@@ -98,10 +107,10 @@ public class XLSInputStream extends InputStream {
 		
 		for(Cell c : titleRow) {
 			String cellValue = c.getRichStringCellValue().toString();
-			if(i == columnsIndex.length)
+			if(i == indexes.length)
 				break;
 			if(cellValue.equals(columns[i])) {
-				columnsIndex[i] = c.getColumnIndex();
+				indexes[i] = c.getColumnIndex();
 				i++;
 			}
 		}
@@ -110,11 +119,14 @@ public class XLSInputStream extends InputStream {
 			Row currentRow = worksheet.getRow(j);
 			Cell currentCell;
 			String data;
-			for(int col : columnsIndex) {
+			for(int col : indexes) {
 				currentCell = currentRow.getCell(col);
 				switch(currentCell.getCellType()) {
 					case Cell.CELL_TYPE_NUMERIC :
-						data = String.valueOf(currentCell.getNumericCellValue());
+						if(HSSFDateUtil.isCellDateFormatted(currentCell))
+							data = new SimpleDateFormat("dd-MM-yyyy").format(currentCell.getDateCellValue());
+						else 
+							data = String.valueOf(currentCell.getNumericCellValue());
 						break;
 						
 					case Cell.CELL_TYPE_STRING :
@@ -131,6 +143,7 @@ public class XLSInputStream extends InputStream {
 
 		dos.flush();
 		data = out.toByteArray();
+		System.out.println(getClass().getName() + ": Fill read " + data.length + " bytes");
 		lastRead = 0;
 	}
 }

@@ -22,8 +22,9 @@ public class XLSInputStreamTest {
 	@Test
 	public void columnFindTest() throws Exception {
 		XLSInputStream in = new XLSInputStream(TEST_FILE, null);
-		String[] columns = in.getColumns();
-		String[] expected = { "B" , "C", "E", "F", "G", "K"};
+		in.fill();
+		int[] columns = in.getColumnsIndex();
+		int[] expected = { 1 , 2, 4, 5, 6, 10 };
 		assertEquals(expected.length, columns.length);
 		for(int i = 0 ; i < columns.length ; i++) {
 			assertEquals(expected[i], columns[i]);
@@ -36,7 +37,7 @@ public class XLSInputStreamTest {
 		XLSInputStream in = new XLSInputStream(TEST_FILE, null);
 		DataInputStream dis = new DataInputStream(in);
 		byte[] buffer;
-		String[] expected = { "347", "FR 30307", "29-02-2012", "77.29" , "43.3", "630" };
+		String[] expected = { "347.0", "FR 30307", "29-02-2012", "77.29" , "43.3", "630.0" };
 		for(int i = 0 ; i < expected.length ; i++) {
 			buffer = new byte[dis.readInt()];
 			for(int j = 0 ; j < buffer.length ; j++) {
