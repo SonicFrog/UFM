@@ -1,0 +1,14 @@
+#!/bin/bash
+# Linux startup script for Unilabs Fleet Manager
+# https://github.com/SonicFrog/UFM
+# © Ogier Bouvier <ogier.bouvier@epfl.ch> 2012
+
+JEXEC=`which java`
+JARNAME=`basename $0`
+
+if [ -z "$JEXEC" ]; then 
+	zenity --error --title="Aucun JRE detecté ! Veuillez installer Java 7 ou supérieur pour lancer UFM."
+	exit -1
+fi
+
+$JEXEC -jar "$JARNAME.jar"
