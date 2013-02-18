@@ -33,6 +33,7 @@ import com.unilabs.gui.action.RedoGUIAction;
 import com.unilabs.gui.action.SaveAsGUIAction;
 import com.unilabs.gui.action.SaveGUIAction;
 import com.unilabs.gui.action.SearchGUIAction;
+import com.unilabs.gui.action.SingleCarAverageAction;
 import com.unilabs.gui.action.UndoGUIAction;
 
 /**
@@ -97,6 +98,7 @@ public class UnilabsMenubar extends JMenuBar {
 	private JMenuActionItem mFleet = new JMenuActionItem("Moyenne pour la flotte", new FleetAverageAction());
 	private JMenuActionItem mTotal = new JMenuActionItem("Totaux pour la flotte", new FleetTotalsAction());
 	private JMenuActionItem mClient = new JMenuActionItem("Moyenne pour un client", new ClientAverageDropdownAction());
+	private JMenuActionItem mAvg = new JMenuActionItem("Moyenne pour cette voiture", new SingleCarAverageAction());
 	private JMenuActionItem mOption = new JMenuActionItem("Options", new OptionAction());
 	
 	private JMenuActionItem undo = new JMenuActionItem("Annuler", new UndoGUIAction());
@@ -178,6 +180,7 @@ public class UnilabsMenubar extends JMenuBar {
 		test.add(mFleet);
 		test.add(mTotal);
 		test.add(mClient);
+		test.add(mAvg);
 		test.add(mOption);
 
 		about.add(help);

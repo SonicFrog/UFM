@@ -21,7 +21,7 @@ public class ClientAverageDropdownAction extends JDialog implements GUIAction, A
 
 	private static final long serialVersionUID = 2909546065420153392L;
 	private UnilabsFleetManager ufm = UnilabsFleetManager.getInstance();
-	private JComboBox cbox;
+	private JComboBox<Integer> cbox;
 	private JPanel up, down;
 	private JButton ok = new JButton("Ok"), cancel = new JButton("Annuler");
 
@@ -36,7 +36,7 @@ public class ClientAverageDropdownAction extends JDialog implements GUIAction, A
 	}
 
 	private void init() {
-		cbox = new JComboBox();
+		cbox = new JComboBox<>();
 		if(up != null) {
 			remove(up);
 			remove(down);

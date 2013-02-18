@@ -25,7 +25,7 @@ import org.jopendocument.dom.spreadsheet.SpreadSheet;
  */
 public class ODSInputStream extends InputStream {
 
-	private static final String[] DEFAULT_COLUMNS = { "Client" , "Registration no.", "Invoice date" , 
+	public static final String[] DEFAULT_COLUMNS = { "Client" , "Registration no.", "Invoice date" , 
 		"Fuel Amount" , "Liters" , "Registered mileage"};
 	/**
 	 * Référence vers le fichier en cours de lecture

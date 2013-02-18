@@ -16,6 +16,8 @@
 #define JAVA_REG_KEY 		"SOFTWARE\\JavaSoft\\Java Runtime Environment\\" 	//Registry key containing Java related informations
 #define ROOT_HKEY 		HKEY_LOCAL_MACHINE
 
+#define LOG_FILE		"error.log"
+
 #define BUFFER_SIZE 		512
 
 void NoJavaError();
@@ -29,6 +31,9 @@ int main(int argc, char** argv) {
 	int javaPathLength = 0;	
 	int fd;
 	int exitCode;
+
+	freopen(LOG_FILE, "w+", stdout);
+	freopen(LOG_FILE, "w+", stderr);
 
 	getenv_s(&javaPathLength, java, MAX_PATH, JAVA); //Reading the JAVA_HOME env variable
 	java_final_path = malloc(sizeof(char) * strlen(java));
@@ -52,13 +57,13 @@ int main(int argc, char** argv) {
 			return EXIT_FAILURE;		
 		}
 	}
-	_close(fd);
+	close(fd);
 	
 	args = malloc(sizeof(char*) * argc - 1); //Copying arguments giving on the command line to the launcher in order to give them to UFM
 	for(i = 1 ; i < argc ; i++) {
 		arg[i - 1] = argv[i];
 	}
-	exitCode = _execvp(java_final_path, args); //And finally executing UFM... phew!
+	exitCode = execvp(java_final_path, args); //And finally executing UFM... phew!
 	free(java_final_path);
 	return exitCode;
 }
