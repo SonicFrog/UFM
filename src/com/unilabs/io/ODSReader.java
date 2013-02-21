@@ -87,7 +87,7 @@ public class ODSReader {
 		try {
 			byte[] buffer = new byte[dis.readInt()];
 			dis.read(buffer);
-			last_client = Integer.parseInt(new String(buffer, Charset.forName("ASCII")));
+			last_client = (int) Double.parseDouble(new String(buffer, Charset.forName("ASCII")));
 			buffer = new byte[dis.readInt()];
 			dis.read(buffer);
 			last_plaque = new String(buffer, Charset.forName("ASCII"));
@@ -105,7 +105,7 @@ public class ODSReader {
 			fuel = Double.parseDouble(new String(buffer, Charset.forName("ASCII")));
 			buffer = new byte[dis.readInt()];
 			dis.read(buffer);
-			kilometers = Integer.parseInt(new String(buffer, Charset.forName("ASCII")));
+			kilometers = (int) Double.parseDouble(new String(buffer, Charset.forName("ASCII")));
 
 			out = new Plein(date, hour, fuel, price, kilometers);
 		} catch (NumberFormatException e) {

@@ -115,10 +115,13 @@ public class XLSInputStream extends InputStream {
 			}
 		}
 		
-		for(int j = 1 ; i < worksheet.getLastRowNum() ; i++) {
+		for(int j = 1 ; i < worksheet.getLastRowNum() ; j++) {
 			Row currentRow = worksheet.getRow(j);
 			Cell currentCell;
 			String data;
+			if(currentRow == null) {
+			    break;
+			}
 			for(int col : indexes) {
 				currentCell = currentRow.getCell(col);
 				switch(currentCell.getCellType()) {

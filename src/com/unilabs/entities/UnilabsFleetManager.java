@@ -213,6 +213,7 @@ public class UnilabsFleetManager {
 			Message.showErrorMessage(gui, "Erreur", "Ce fichier n'est pas un fichier contenant des informations de pleins : " + 
 					e.getLocalizedMessage());
 			gui.getContentPane().setCursor(new Cursor(Cursor.WAIT_CURSOR));
+			e.printStackTrace();
 			return;
 		}
 		gui.repaint();
