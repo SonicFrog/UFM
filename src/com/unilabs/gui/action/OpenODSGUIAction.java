@@ -1,9 +1,9 @@
 package com.unilabs.gui.action;
 
 import javax.swing.JFileChooser;
-import javax.swing.filechooser.FileNameExtensionFilter;
 
 import com.unilabs.entities.UnilabsFleetManager;
+import com.unilabs.gui.CarDataFilter;
 import com.unilabs.gui.FileChooser;
 
 
@@ -21,7 +21,7 @@ public class OpenODSGUIAction implements GUIAction {
 	public void execute() {
 		UnilabsFleetManager ufm = UnilabsFleetManager.getInstance();
 		FileChooser jfc = new FileChooser();
-		jfc.setFileFilter(new FileNameExtensionFilter("OpenDocument Spreadsheet (.ods)", "ods"));
+		jfc.setFileFilter(new CarDataFilter());
 		jfc.setMultiSelectionEnabled(false);
 		jfc.showOpenDialog(UnilabsFleetManager.getInstance().getGUI());
 		if(jfc.getSelectedFile() != null) {
