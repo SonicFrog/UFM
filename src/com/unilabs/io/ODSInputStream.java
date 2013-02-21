@@ -73,6 +73,8 @@ public class ODSInputStream extends InputStream {
 	 * Booléen indiquant si le stream est marqué ou non
 	 */
 	private int markIndex;
+	
+	private boolean initialized = false;
 
 	/**
 	 * Instantie un ODSInputStream à partir d'un fichier
@@ -83,10 +85,9 @@ public class ODSInputStream extends InputStream {
 	 * 		Les intitulés des colonnes dont on veut récupérer les données
 	 * @throws IOException
 	 */
-	public ODSInputStream(String file, String[] columns) throws IOException {
+	public ODSInputStream(String file, String[] columns) {
 		this.columns = ((columns == null) ? DEFAULT_COLUMNS : columns);
 		this.file = file;
-		init();
 	}
 
 	@Override
@@ -118,6 +119,9 @@ public class ODSInputStream extends InputStream {
 	 */
 	@Override
 	public int read() throws IOException {
+		if(!initialized) {
+		    init();
+		}
 		if(lastRead == data.length)
 			throw new EOFException();
 		return (data[lastRead++] & 0xff);
@@ -176,6 +180,7 @@ public class ODSInputStream extends InputStream {
 			}
 		}
 		data = bos.toByteArray();
+		initialized = true;
 	}
 
 	/**
