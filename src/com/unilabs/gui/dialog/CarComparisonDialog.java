@@ -63,20 +63,20 @@ public class CarComparisonDialog extends JFrame implements ActionListener {
 		JPanel p;
 		String buf;
 		double value1 = 0.0, value2 = 0.0;
-		Color un = Color.blue, deux = Color.blue;
+		Color un = Color.CYAN, deux = Color.CYAN;
 		dataPanel.setLayout(new GridLayout(dataUn.size(), 3));
 		for(int i = 0 ; i < dataUn.size() ; i++) {
 			try {
 				value1 = (Double) dataUn.get(i);
 				value2 = (Double) dataDeux.get(i);
 				if(value1 > value2) {
-					un = Color.red;
+					un = Color.ORANGE;
 					deux = Color.green;
 				} else if(value1 < value2){
 					un = Color.green;
-					deux = Color.red;
+					deux = Color.ORANGE;
 				} else {
-					un = deux = Color.blue;
+					un = deux = Color.CYAN;
 				}
 			} catch(ClassCastException e) {
 
