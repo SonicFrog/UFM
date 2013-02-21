@@ -139,13 +139,16 @@ public class ODSInputStream extends InputStream {
 		int i = 0, j = 2;
 		String cellcontent;
 		ODFFile = new File(file);
-		if(!ODFFile.exists())
+		if(!ODFFile.exists()) {
 			throw new FileNotFoundException(ODFFile.getAbsolutePath());
-		if(!ODFFile.getAbsoluteFile().getName().endsWith(".ods"))
+		}
+		if(!ODFFile.getAbsoluteFile().getName().endsWith(".ods")) {
 			throw new CorruptedFileException("Ce fichier n'est pas un fichier ODS valide");
+		}
 
-		if(columns == null || columns.length == 0)
+		if(columns == null || columns.length == 0) {
 			throw new IllegalArgumentException();
+		}
 		try {
 			sheet = SpreadSheet.createFromFile(ODFFile).getSheet(0);
 		} catch (NoSuchElementException e) {
@@ -164,21 +167,17 @@ public class ODSInputStream extends InputStream {
 		do {
 			do {
 				cellcontent = sheet.getCellAt(columns[i] + j).getTextValue();
-				if(cellcontent.isEmpty())
+				if(cellcontent.isEmpty()) {
 					break;
-				sbuffer.add(cellcontent.length());
-				buffer.add(cellcontent);
+				}
+				os.writeInt(cellcontent.length());
+				os.writeBytes(cellcontent);
+				//buffer.add(cellcontent);
 				i++;
 			} while( i < columns.length);
 			i = 0;
 			j++;
 		} while(!cellcontent.isEmpty());
-		for(i = 0 ; i < buffer.size() ; i++) {
-			os.writeInt(sbuffer.get(i));
-			for(j = 0 ; j < buffer.get(i).length() ; j++) {
-				os.writeByte(buffer.get(i).charAt(j));
-			}
-		}
 		data = bos.toByteArray();
 		initialized = true;
 	}

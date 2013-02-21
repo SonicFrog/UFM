@@ -94,6 +94,7 @@ public class XLSInputStream extends InputStream {
 		Workbook wb;
 		Row titleRow;
 		int i = 0;
+		SimpleDateFormat dateFormatter = new SimpleDateFormat("dd-MM-yyyy");
 		indexes = new int[columns.length];
 		
 		try {
@@ -127,7 +128,7 @@ public class XLSInputStream extends InputStream {
 				switch(currentCell.getCellType()) {
 					case Cell.CELL_TYPE_NUMERIC :
 						if(HSSFDateUtil.isCellDateFormatted(currentCell))
-							data = new SimpleDateFormat("dd-MM-yyyy").format(currentCell.getDateCellValue());
+							data = dateFormatter.format(currentCell.getDateCellValue());
 						else 
 							data = String.valueOf(currentCell.getNumericCellValue());
 						break;
