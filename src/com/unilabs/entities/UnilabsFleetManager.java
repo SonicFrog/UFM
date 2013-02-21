@@ -25,6 +25,8 @@ import com.unilabs.io.Writer;
 import com.unilabs.options.OptionStorage;
 import com.unilabs.security.PlateChecker;
 import com.unilabs.security.SwissPlate;
+import com.unilabs.utils.FileHandler;
+import java.io.InputStream;
 
 /**
  * Singleton central contenant toutes les voitures actuellement en mémoire
@@ -185,7 +187,9 @@ public class UnilabsFleetManager {
 		int duplicates = 0;
 		gui.getContentPane().setCursor(new Cursor(Cursor.WAIT_CURSOR));
 		try {
-			ODSInputStream in = new ODSInputStream(f.getAbsolutePath(), null);
+			
+			InputStream in = FileHandler.handleFile(f);
+			
 			ODSReader reader = new ODSReader(in);
 			String plate = reader.getNextPlaque();
 
