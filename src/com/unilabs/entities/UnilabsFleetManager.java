@@ -8,7 +8,6 @@ import java.io.File;
 import java.io.FileInputStream;
 import java.io.FileOutputStream;
 import java.io.IOException;
-import java.io.InputStream;
 import java.io.OutputStream;
 import java.util.Vector;
 import java.util.concurrent.ConcurrentHashMap;
@@ -19,8 +18,6 @@ import com.unilabs.gui.FileChooser;
 import com.unilabs.gui.Message;
 import com.unilabs.gui.UnilabsGUI;
 import com.unilabs.gui.dialog.ExitDialog;
-import com.unilabs.io.CompressedXMLReader;
-import com.unilabs.io.CompressedXMLWriter;
 import com.unilabs.io.ODSInputStream;
 import com.unilabs.io.ODSReader;
 import com.unilabs.io.Reader;
@@ -116,11 +113,20 @@ public class UnilabsFleetManager {
 
 	/**
 	 * Ajoute une voiture dans la liste
+	 * ou si la voiture est déjà contenue dans la liste ajoute les pleins de la voiture passée en paramètres à la voiture de la liste
 	 * @param c
 	 */
 	public void addCar(UnilabsCar c) {
-		cars.put(c.getPlaque(), c);
-		fileSaved = false;
+		if(cars.contains(c.getPlaque())){
+		    System.out.println("Car " + c.getPlaque() + " is already loaded adding data!");
+		    UnilabsCar ref = cars.get(c.getPlaque());
+		    for(Plein p : c.getPleins()) {
+			ref.addPlein(p);
+		    }
+		} else {
+		    cars.put(c.getPlaque(), c);
+		    fileSaved = false;
+		}
 		gui.repaint();
 	}
 
