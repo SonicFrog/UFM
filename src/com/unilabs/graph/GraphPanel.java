@@ -48,7 +48,7 @@ public abstract class GraphPanel extends JPanel {
 	/**
 	 * La liste des points dessiné
 	 */
-	private ArrayList<Point> points = new ArrayList<Point>();
+	private ArrayList<Point> points = new ArrayList<>();
 	
 	public GraphPanel(UnilabsCar data) {
 		car = data;
@@ -56,7 +56,7 @@ public abstract class GraphPanel extends JPanel {
 		setSize(new Dimension(800, 600));
 	}
 	
-	
+	@Override
 	public void paint(Graphics g) {
 		drawBorders(g);
 		drawScale(g);
@@ -105,8 +105,9 @@ public abstract class GraphPanel extends JPanel {
 	protected void drawPoint(Point p, Graphics g) {
 		Point previous;
 		points.add(p);
-		if(points.size() == 1)
+		if(points.size() == 1) {
 			return;
+		}
 		previous = points.get(points.size() - 2);
 		g.setColor(Color.red);
 		g.drawLine((int) previous.getX(), (int) previous.getY(), (int) p.getX(), (int) p.getY());

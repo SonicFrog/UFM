@@ -48,6 +48,9 @@ public class UnilabsGUI extends JFrame implements WindowListener{
 	private JPanel nodata = new JPanel();
 	
 
+	/**
+	 * Instancie la fenêtre principale du programme
+	 */
 	public UnilabsGUI() {
 		super("Gestionnaire de flotte automobile Unilabs");
 		addWindowListener(this);
@@ -70,6 +73,7 @@ public class UnilabsGUI extends JFrame implements WindowListener{
 		built = true;
 	}
 
+	@Override
 	public void repaint() {
 		if(UnilabsFleetManager.getInstance().getCars().length == 0 && built) {
 			setContentPane(nodata);
@@ -90,6 +94,11 @@ public class UnilabsGUI extends JFrame implements WindowListener{
 		setContentPane(cp);
 	}
 
+	/**
+	 * Retourne la plaque de la voiture selectionnée
+	 * @return 
+	 *		Une string contenant la plaque de la voiture selectionnée
+	 */
 	public String getSelectedCar() {
 		if(cp.getSelectedCarIndex() == -1)
 			return null;

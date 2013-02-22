@@ -21,6 +21,11 @@ public class GraphWriter {
 
 	private GraphPanel panel;
 	
+	/**
+	 * Instancie un exporteur de graphe
+	 * @param p
+	 *		Le graphe que l'on souhaite exporter avec cette instance
+	 */
 	public GraphWriter(GraphPanel p) {
 		panel = p;
 	}

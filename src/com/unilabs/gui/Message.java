@@ -56,10 +56,18 @@ public class Message {
 		JOptionPane.showMessageDialog(UnilabsFleetManager.getInstance().getGUI(), message, "Succès", JOptionPane.INFORMATION_MESSAGE);
 	}
 
+	/**
+	 * Affiche un message d'avertissement apparanté à la GUI principale du programme
+	 * @param message 
+	 *		Le texte du message
+	 */
 	public static void showWarningMessage(String message) {
 		JOptionPane.showMessageDialog(UnilabsFleetManager.getInstance().getGUI(), message, "Attention", JOptionPane.WARNING_MESSAGE);	
 	}
 	
+	/**
+	 * Message d'erreur lors de l'accès à une fonction encore non présente dans le programme
+	 */
 	public static void showUnimplementedMessage() {
 		showWarningMessage("Cette fonction n'est pas encore disponible");
 	}

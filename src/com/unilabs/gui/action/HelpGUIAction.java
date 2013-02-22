@@ -8,8 +8,15 @@ import java.net.URISyntaxException;
 import com.unilabs.gui.Message;
 
 
+/**
+ * Action pour afficher l'aide du programme
+ * @author Ogier
+ */
 public class HelpGUIAction implements GUIAction {
 
+	/**
+	 * URL pour accéder au wiki contenant l'aide (Serveur down pour l'instant)
+	 */
 	private static final String HELP_URL = "http://ars3nic.proteck.ch/unilabs/";
 	
 	@Override

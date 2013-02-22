@@ -28,6 +28,6 @@ public class NonEditableTableModel extends DefaultTableModel {
 	 */
 	public void setSelectedColumn(int column) {
 		System.out.println("Sorting table with col " + column);
-		Collections.sort((Vector<?>) dataVector, new TableComparator(column));
+		Collections.sort(dataVector, new TableComparator(column));
 	}
 }

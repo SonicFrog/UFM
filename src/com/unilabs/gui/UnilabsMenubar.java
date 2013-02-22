@@ -24,7 +24,6 @@ import com.unilabs.gui.action.HelpGUIAction;
 import com.unilabs.gui.action.InteroGUIAction;
 import com.unilabs.gui.action.KiloGraphAction;
 import com.unilabs.gui.action.ModifyGUIAction;
-import com.unilabs.gui.action.NewGUIAction;
 import com.unilabs.gui.action.OpenBinaryGUIAction;
 import com.unilabs.gui.action.OpenODSGUIAction;
 import com.unilabs.gui.action.OptionAction;
@@ -76,7 +75,6 @@ public class UnilabsMenubar extends JMenuBar {
 	private JMenu test = new JMenu("Test");
 	private JMenu about = new JMenu("?");
 
-	private JMenuActionItem New = new JMenuActionItem("Nouveau ...", new NewGUIAction());
 	private JMenuActionItem open = new JMenuActionItem("Ajouter des données ...", new OpenODSGUIAction());
 	private JMenuActionItem load = new JMenuActionItem("Ouvrir ...", new OpenBinaryGUIAction());
 	private JMenuActionItem save = new JMenuActionItem("Enregistrer", new SaveGUIAction());
@@ -118,7 +116,6 @@ public class UnilabsMenubar extends JMenuBar {
 		about.setMnemonic('?');
 
 		try {
-			New.setIcon(new ImageIcon(ImageIO.read(new File(NEW_ICON))));
 			load.setIcon(new ImageIcon(ImageIO.read(new File(OPEN_ICON))));
 			save.setIcon(new ImageIcon(ImageIO.read(new File(SAVE_ICON))));
 			close.setIcon(new ImageIcon(ImageIO.read(new File(CLOSE_ICON))));
@@ -134,9 +131,8 @@ public class UnilabsMenubar extends JMenuBar {
 			help.setIcon(new ImageIcon(ImageIO.read(new File(HELP_ICON))));
 			intero.setIcon(new ImageIcon(ImageIO.read(new File(ABOUT_ICON))));
 		} catch (IOException e) {
-			e.printStackTrace();
+			e.printStackTrace(System.out);
 		}
-		New.setAccelerator(KeyStroke.getKeyStroke(KeyEvent.VK_N, KeyEvent.CTRL_DOWN_MASK));
 		open.setAccelerator(KeyStroke.getKeyStroke(KeyEvent.VK_O, KeyEvent.CTRL_DOWN_MASK));
 		save.setAccelerator(KeyStroke.getKeyStroke(KeyEvent.VK_S, KeyEvent.CTRL_DOWN_MASK));
 		saveas.setAccelerator(KeyStroke.getKeyStroke(KeyEvent.VK_S, KeyEvent.CTRL_DOWN_MASK + KeyEvent.SHIFT_DOWN_MASK));
@@ -155,7 +151,6 @@ public class UnilabsMenubar extends JMenuBar {
 		undo.setAccelerator(KeyStroke.getKeyStroke(KeyEvent.VK_Z, KeyEvent.CTRL_DOWN_MASK));
 		redo.setAccelerator(KeyStroke.getKeyStroke(KeyEvent.VK_Y, KeyEvent.CTRL_DOWN_MASK));
 
-		file.add(New);
 		file.add(load);
 		file.add(open);
 		file.add(save);

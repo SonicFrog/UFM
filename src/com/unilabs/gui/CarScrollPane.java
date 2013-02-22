@@ -28,6 +28,9 @@ public class CarScrollPane extends JPanel {
 	private JScrollPane content;
 	private boolean drawn = false;
 	
+	/**
+	 * Instancie un composant graphique qui affiche une liste de voitures dans un JScrollPane
+	 */
 	public CarScrollPane() {
 		setLayout(new BorderLayout());
 		makeTable();
@@ -36,6 +39,9 @@ public class CarScrollPane extends JPanel {
 		drawn = true;
 	}
 	
+	/**
+	 * Construit le composant
+	 */
 	private void build() {
 		content = new JScrollPane(table);
 		add(content, BorderLayout.CENTER);
@@ -46,6 +52,7 @@ public class CarScrollPane extends JPanel {
 	 */
 	private void listener() {
 		table.getTableHeader().addMouseListener(new MouseAdapter() {
+			@Override
 			public void mouseClicked(MouseEvent e) {
 				setSelectedColum(e);
 			}
@@ -62,6 +69,9 @@ public class CarScrollPane extends JPanel {
 		table.setFillsViewportHeight(true);
 	}
 	
+	/**
+	 * Reconstruit le TableModel pour mettre à jour les données affichées dans la GUI
+	 */
 	private void update() {
 		Enumeration<TableColumn> tc;
 		table.setModel(model = TableCreator.createAverageTableModel(UnilabsFleetManager.getInstance().getCars()));
@@ -70,9 +80,9 @@ public class CarScrollPane extends JPanel {
 			tc.nextElement().setCellRenderer(new ConsomationTableCellRenderer());
 		}
 		table.repaint();
-		System.out.println("TableModel ré-instancié");
 	}
 	
+	@Override
 	public void repaint() {
 		if(drawn) {
 			update();
@@ -89,6 +99,11 @@ public class CarScrollPane extends JPanel {
 		return table.getSelectedRow();
 	}
 	
+	/**
+	 * Intercepte les clicks sur les intitulés de colonnes pour trier par rapport à cette colonne
+	 * @param e 
+	 *		L'évenement de souris
+	 */
 	public void setSelectedColum(MouseEvent e) {
 		int column = table.columnAtPoint(e.getPoint());
 		model.setSelectedColumn(column);

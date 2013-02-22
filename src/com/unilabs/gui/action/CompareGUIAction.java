@@ -4,7 +4,10 @@ import com.unilabs.entities.UnilabsFleetManager;
 import com.unilabs.gui.Message;
 import com.unilabs.gui.dialog.ComparisonSelectorDialog;
 
-
+/**
+ * Action de comparaison entre deux voitures
+ * @author Ogier
+ */
 public class CompareGUIAction implements GUIAction {
 
 	@Override

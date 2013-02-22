@@ -10,10 +10,12 @@ public class KiloGraphAction implements GUIAction {
 	@Override
 	public void execute() {
 		try {
-			if(UnilabsFleetManager.getInstance().hasCars() && UnilabsFleetManager.getInstance().getSelectedCar() != -1)
+			if(UnilabsFleetManager.getInstance().hasCars() && UnilabsFleetManager.getInstance().getSelectedCar() != -1) {
 				new GraphFrame(new KilometersGraph(UnilabsFleetManager.getInstance().getCars()[UnilabsFleetManager.getInstance().getSelectedCar()]));
-			else
+			}
+			else {
 				Message.showWarningMessage("Aucune voiture séléctionnée");
+			}
 		} catch(NullPointerException e) {
 			Message.showErrorMessage(UnilabsFleetManager.getInstance().getGUI(), "Erreur", "Aucune voiture séléctionnée");
 		}

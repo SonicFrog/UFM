@@ -6,6 +6,11 @@ import java.awt.Component;
 import javax.swing.JTable;
 import javax.swing.table.DefaultTableCellRenderer;
 
+/**
+ * Un dessinateur de cellule de tableau utilisé pour afficher des couleurs dans un tableau de consommation des voitures
+ * @version 2.0
+ * @author Ogier
+ */
 public class ConsomationTableCellRenderer extends DefaultTableCellRenderer {
 
 	private static final long serialVersionUID = 1L;

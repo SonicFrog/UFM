@@ -16,9 +16,17 @@ import javax.swing.JPanel;
 import com.unilabs.gui.UnilabsMenubar;
 
 
+/**
+ * Action pour afficher un dialogue d'information
+ * @author Ogier
+ */
 public class InteroGUIAction implements GUIAction, ActionListener {
 
+	/**
+	 * Dialogue contenant les informations du "A propos"
+	 */
 	private JDialog about;
+	
 	@Override
 	public void execute() {
 		JPanel p;
@@ -50,6 +58,7 @@ public class InteroGUIAction implements GUIAction, ActionListener {
 		about.setVisible(true);
 	}
 
+	@Override
 	public void actionPerformed(ActionEvent e) {
 		about.dispose();
 	}

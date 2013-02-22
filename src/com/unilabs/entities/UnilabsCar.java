@@ -61,11 +61,23 @@ public class UnilabsCar implements Serializable {
 		setPlaque(plaque);
 	}
 	
+	/**
+	 * Constructeur de copie pour UnilabsCar
+	 * @param car 
+	 *		La voiture dont on veux instanticier une copie
+	 */
 	public UnilabsCar(UnilabsCar car) {
 		plaque = car.plaque;
 		numeroClient = car.numeroClient;
 	}
 	
+	/**
+	 * Ajoute un plein dans la liste des pleins de cette voiture si ce Plein n'est pas déjà présent présent
+	 * @param p
+	 *		Le plein à ajouter
+	 * @return 
+	 *		true si le plein a été ajouté false si il est déjà présent
+	 */
 	public boolean addPlein(Plein p) {
 		if(pleins.contains(p)) {
 			duplicateCount++;
@@ -75,52 +87,100 @@ public class UnilabsCar implements Serializable {
 		return true;
 	}
 
+	/**
+	 * Accesseur pour le numéro client de cette voiture
+	 * @return 
+	 *		Le numéro du client auquel est associé cette voiture
+	 */
 	public int getNumeroClient() {
 		return numeroClient;
 	}
 
+	/**
+	 * Accesseur pour la plaque de cette voiture
+	 * @return
+	 *		La plaque de la voiture
+	 */
 	public String getPlaque() {
 		return plaque;
 	}
 	
+	/**
+	 * Retourne le nombre de pleins enregistrés pour cette voiture
+	 * @return 
+	 *		Un entier pour le nombre de pleins de cette voiture
+	 */
 	public int size() {
 		return pleins.size();
 	}
 	
+	/**
+	 * Accesseur pour le nombre de pleins en double qui ont été donnés à cette voiture
+	 * @return 
+	 */
 	public int getDuplicateCount() {
 		return duplicateCount;
 	}
 
+	/**
+	 * Mutateur pour la plaque de cette voiture
+	 * @param plaque 
+	 *		La nouvelle plaque de cette voiture
+	 * @throws IllegalArgumentException
+	 */
 	public void setPlaque(String plaque) {
-		if(!checker.validatePlate(plaque))
+		if(!checker.validatePlate(plaque)) {
 			throw new IllegalArgumentException("La plaque " + plaque + " n'est pas un format valide !");
+		}
 		this.plaque = plaque;
 	}
 
+	/**
+	 * Retourne la liste de pleins de cette voiture
+	 * @return 
+	 *		Une ArrayList contenant toutes les références pour les pleins de cette voiture
+	 */
 	public ArrayList<Plein> getPleins() {
-		ArrayList<Plein> out = new ArrayList<Plein>();
+		ArrayList<Plein> out = new ArrayList<>();
 		for(Plein p : pleins) {
 			out.add(p);
 		}
 		return out;
 	}
 	
+	/**
+	 * Retourne la liste des pleins de cette voiture
+	 * @return 
+	 *		Une tableau contenant les pleins de cette voiture
+	 */
 	public Plein[] getPleinsArray() {
 		return pleins.toArray(new Plein[0]);
 	}
 
+	/**
+	 * Mutateur pour le numéro client de cette voiture
+	 * @param numeroClient 
+	 *		Le nouveau numéro client de cette voiture
+	 */
 	public void setNumeroClient(int numeroClient) {
 		this.numeroClient = numeroClient;
 	}
 	
-	public boolean equals(UnilabsCar c) {
-		Iterator<Plein> i1 = pleins.iterator(), i2 = c.pleins.iterator();
-		if(!plaque.equals(c.plaque))
+	public boolean equals(Object c) {
+		if( !(c instanceof UnilabsCar)) {
 			return false;
-		if(numeroClient != c.numeroClient)
+		}
+		UnilabsCar car = (UnilabsCar) c;
+		Iterator<Plein> i1 = pleins.iterator(), i2 = car.pleins.iterator();
+		if(!plaque.equals(car.plaque)) {
 			return false;
-		if(pleins.size() != c.pleins.size())
+		}
+		if(numeroClient != car.numeroClient) {
 			return false;
+		}
+		if(pleins.size() != car.pleins.size()) {
+			return false;
+		}
 		while(i1.hasNext()) {
 			if(!i1.next().equals(i2.next())) {
 				return false;

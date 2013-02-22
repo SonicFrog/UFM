@@ -6,6 +6,10 @@ import com.unilabs.entities.UnilabsFleetManager;
 import com.unilabs.gui.Message;
 
 
+/**
+ * Action de suppression d'une voiture
+ * @author Ogier
+ */
 public class DeleteGUIAction implements GUIAction {
 
 	@Override

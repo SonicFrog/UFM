@@ -3,6 +3,10 @@ package com.unilabs.gui;
 import java.util.Comparator;
 import java.util.Vector;
 
+/**
+ * Comparateur utilisé pour trier les tableaux de voitures selon la colonne selectionnée
+ * @author Ogier
+ */
 public class TableComparator implements Comparator<Object> {
 
 	private int column;

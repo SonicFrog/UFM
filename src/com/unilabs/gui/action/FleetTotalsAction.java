@@ -5,6 +5,10 @@ import com.unilabs.gui.Message;
 import com.unilabs.gui.dialog.FleetInformationDialog;
 import com.unilabs.processing.FleetQuantityCalculator;
 
+/**
+ * Action pour afficher les totaux de la flotte
+ * @author Ogier
+ */
 public class FleetTotalsAction implements GUIAction {
 
 	@Override

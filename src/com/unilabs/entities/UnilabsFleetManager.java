@@ -9,7 +9,6 @@ import java.io.FileInputStream;
 import java.io.FileOutputStream;
 import java.io.IOException;
 import java.io.OutputStream;
-import java.util.Vector;
 import java.util.concurrent.ConcurrentHashMap;
 
 import javax.swing.JOptionPane;
@@ -18,6 +17,8 @@ import com.unilabs.gui.FileChooser;
 import com.unilabs.gui.Message;
 import com.unilabs.gui.UnilabsGUI;
 import com.unilabs.gui.dialog.ExitDialog;
+import com.unilabs.io.CompressedXMLReader;
+import com.unilabs.io.CompressedXMLWriter;
 import com.unilabs.io.ODSInputStream;
 import com.unilabs.io.ODSReader;
 import com.unilabs.io.Reader;
@@ -40,8 +41,19 @@ import java.io.InputStream;
  */
 public class UnilabsFleetManager {
 
+	/**
+	 * Le nom du fichier dans lequel est stocké la configuration de UFM
+	 */
 	public static final String PROPERTIES_FILE = "config.properties";
+	
+	/**
+	 * Nom de clef contenant la monnaie dans le .properties
+	 */
 	public static final String CURRENCY_KEY = "currencyString";
+	
+	/**
+	 * Nom de la clef contenant le format de plaque dans le .properties
+	 */
 	public static final String PLATE_KEY = "PlateType";
 	
 	/**
@@ -79,10 +91,16 @@ public class UnilabsFleetManager {
 	 */
 	private File output = null;
 
+	/**
+	 * L'objet de stockage des paramètres
+	 */
 	private OptionStorage os;
 	
+	/**
+	 * Construit un nouveau UnilabsFleetManager vide
+	 */
 	public UnilabsFleetManager() {
-		cars = new ConcurrentHashMap<String, UnilabsCar>();
+		cars = new ConcurrentHashMap<>();
 		pc = new SwissPlate();
 		
 		try {
@@ -90,6 +108,7 @@ public class UnilabsFleetManager {
 			new FileChooser(UnilabsFleetManager.class.getProtectionDomain().getCodeSource().getLocation().getFile());
 		} catch (IOException e) {
 			Message.showErrorMessage("Erreur", "Le fichier de paramètres " + PROPERTIES_FILE + " est introuvable !");
+			e.printStackTrace(System.out);
 		}
 	}
 
@@ -119,7 +138,7 @@ public class UnilabsFleetManager {
 	 * @param c
 	 */
 	public void addCar(UnilabsCar c) {
-		if(cars.contains(c.getPlaque())){
+		if(cars.contains(c)){
 		    System.out.println("Car " + c.getPlaque() + " is already loaded adding data!");
 		    UnilabsCar ref = cars.get(c.getPlaque());
 		    for(Plein p : c.getPleins()) {
@@ -163,9 +182,16 @@ public class UnilabsFleetManager {
 	 * @see UnilabsFleetManager#cars
 	 */
 	public UnilabsCar[] getCars() {
-		return cars.values().toArray(new UnilabsCar[0]);
+		UnilabsCar[] out = new UnilabsCar[cars.size()];
+		cars.values().toArray(out);
+		return out;
 	}
 
+	/**
+	 * Retourne la GUI de UFM
+	 * @return 
+	 *		Une référence vers la fenêtre principale de UFM
+	 */
 	public UnilabsGUI getGUI() {
 		return gui;
 	}
@@ -206,14 +232,14 @@ public class UnilabsFleetManager {
 			System.out.println("Read all cars from " + f.getAbsolutePath());
 		} catch (IOException e){
 			Message.showErrorMessage(gui, "Erreur", e.getLocalizedMessage());
-			e.printStackTrace();
+			e.printStackTrace(System.out);
 			gui.getContentPane().setCursor(new Cursor(Cursor.WAIT_CURSOR));
 			return;
 		} catch (Exception e) {
 			Message.showErrorMessage(gui, "Erreur", "Ce fichier n'est pas un fichier contenant des informations de pleins : " + 
 					e.getLocalizedMessage());
 			gui.getContentPane().setCursor(new Cursor(Cursor.WAIT_CURSOR));
-			e.printStackTrace();
+			e.printStackTrace(System.out);
 			return;
 		}
 		gui.repaint();
@@ -233,24 +259,20 @@ public class UnilabsFleetManager {
 	public void openBinary(File f) {
 		BufferedInputStream bis;
 		Reader r;
-		Vector args = new Vector();
 		gui.getContentPane().setCursor(new Cursor(Cursor.WAIT_CURSOR));
 		try {
 			bis = new BufferedInputStream(new FileInputStream(f));
-			args.add(bis);
-			args.add(pc);
-			//r = new CompressedXMLReader(bis, pc);
-			r = os.getReader(args);
+			r = new CompressedXMLReader(bis, pc);
 			while(true) {
 				addCar(r.readCar());
 			}
 		} catch (EOFException e) {
 			System.out.println("Read all cars from " + f.getAbsolutePath() + ". Car count is now " + cars.size());
 		} catch (IOException e) {
-			e.printStackTrace();
+			e.printStackTrace(System.out);
 			Message.showErrorMessage(gui, "Erreur lors de la lecture", e.getLocalizedMessage());
 		} catch (Exception e) {
-			e.printStackTrace();
+			e.printStackTrace(System.out);
 			Message.showErrorMessage(gui, "Erreur inconnue", "Une erreur de type" + e.getClass().toString() + " s'est produite");
 		}
 		gui.repaint();
@@ -273,9 +295,7 @@ public class UnilabsFleetManager {
 				}
 			}
 			OutputStream bfis = new BufferedOutputStream(new FileOutputStream(f));
-			Vector args = new Vector();
-			args.add(bfis);
-			Writer w = os.getWriter(args);
+			Writer w = new CompressedXMLWriter(bfis);
 			output = f;
 			for(UnilabsCar c : cars.values()) {
 				w.writeCar(c);
@@ -283,7 +303,7 @@ public class UnilabsFleetManager {
 			w.flush();
 		} catch (IOException e) {
 			Message.showErrorMessage(gui, "Erreur lors de la sauvegarde", "Une erreur s'est produite lors de la sauvegarde : " + e.getLocalizedMessage());
-			e.printStackTrace();
+			e.printStackTrace(System.out);
 			return;
 		}
 		fileSaved = true;
@@ -292,6 +312,8 @@ public class UnilabsFleetManager {
 
 	/**
 	 * Ferme le fichier en cours
+	 * @return 
+	 *		true si l'utilisateur accepte la fermeture false sinon
 	 */
 	public boolean close() {
 		switch(new ExitDialog(fileSaved).getResult()) {
@@ -300,19 +322,30 @@ public class UnilabsFleetManager {
 		case JOptionPane.YES_OPTION :
 			FileChooser jfc = new FileChooser();
 			jfc.showSaveDialog(gui);
-			if(jfc.getSelectedFile() == null)
+			if(jfc.getSelectedFile() == null) {
 				return false;
-			save(output = jfc.getSelectedFile());			
+			}
+			save(output = jfc.getSelectedFile());
+			break;
 		case JOptionPane.NO_OPTION :
 			output = null;
-			cars = new ConcurrentHashMap<String, UnilabsCar>();
+			cars = new ConcurrentHashMap<>();
 			fileSaved = true;
 			gui.repaint();
+			break;
+			
+		default :
+			fileSaved = false;
+			return false;
 		}
 		gui.getContentPane().setCursor(new Cursor(Cursor.DEFAULT_CURSOR));
 		return true;
 	}
 
+	/**
+	 * Retourne le fichier de sortie pour cette instance de UFM
+	 * @return
+	 */
 	public File getFile() {
 		return output;
 	}
@@ -321,8 +354,9 @@ public class UnilabsFleetManager {
 	 * Gère la sortie du programme avec la sauvegarde du fichier
 	 */
 	public void exit() {
-		if(!close())
+		if(!close()) {
 			return;
+		}
 		try {
 			os.store();
 		} catch (IOException e) {
@@ -331,37 +365,69 @@ public class UnilabsFleetManager {
 		System.exit(0);
 	}
 
+	/**
+	 * Retourne l'index de la voiture selectionnée dans le tableau de toutes les voitures
+	 * @return 
+	 *		Un entier contenant l'index de la voiture selectionnée dans le HashMap
+	 * @see UnilabsFleetManager#cars
+	 */
 	public int getSelectedCar() {
 		String plaque = gui.getSelectedCar();
-		UnilabsCar[] tab = cars.values().toArray(new UnilabsCar[0]);
+		UnilabsCar[] tab = getCars();
 		int i;
 		for(i = 0 ; i < tab.length ; i++) {
-			if(tab[i].getPlaque().equals(plaque))
+			if(tab[i].getPlaque().equals(plaque)) {
 				return i;
+			}
 		}
 		throw new RuntimeException("Impossible de déterminer quelle voiture est selectionnée !");
 	}
 
+	/**
+	 * Retourne une référence vers la HashMap contenant toutes les voitures
+	 * @return 
+	 */
 	public ConcurrentHashMap<String, UnilabsCar> getRawCars() {
 		return cars;
 	}
 
+	/**
+	 * Retourne la plaque de la voiture sélectionnée dans l'interface graphique
+	 * @return 
+	 */
 	public String getSelectedCarPlate() {
 		return gui.getSelectedCar();
 	}
 	
+	/**
+	 * Retourne l'objet qui gère les options de cette instance d'UFM
+	 * @return 
+	 */
 	public OptionStorage getOptions() {
 		return os;
 	}
 
+	/**
+	 * Retourne la String contenant la monnaie utilisé dans cette instance de UFM
+	 * @return 
+	 */
 	public String getCurrency() {
 		return os.getCurrency();
 	}
 
+	/**
+	 * Accesseur pour savoir si cette instance de UFM contient des voitures
+	 * @return 
+	 */
 	public boolean hasCars() {
 		return cars.size() > 0;
 	}
 
+	/**
+	 * Retourne l'extension de fichiers pour les fichiers binaires UFM
+	 * @return 
+	 *		Une string contenant l'extension des fichiers binaires UFM
+	 */
 	public String getFileExtension() {
 		return FILE_EXTENSION;
 	}

@@ -17,15 +17,46 @@ import java.util.GregorianCalendar;
  */
 public class Plein implements Comparable<Plein>, Serializable {
 
+	/**
+	 * Format de date utilisé pour formatter le jour des pleins
+	 */
 	public static final SimpleDateFormat daySdf = new SimpleDateFormat("d-M-y");
+	
+	/**
+	 * Format de date utilisé pour formatter les heures de pleins
+	 */
 	public static final SimpleDateFormat hourSdf = new SimpleDateFormat("H:m");
+	
+	/**
+	 * Caractères de séparation utilisé pour les dates
+	 */
 	public static final char SEPARATOR = '-';
 	
 	private static final long serialVersionUID = -8255744173521635807L;
+	
+	/**
+	 * Date du plein
+	 */
 	private Date date;
+	
+	/**
+	 * Calendrier pour utiliser les informations de la Date
+	 */
 	private Calendar calendar;
+	
+	/**
+	 * Quantité d'essence du plein
+	 */
 	private double fuelAmount;
+	
+	/**
+	 * Prix du plein
+	 */
 	private double price;
+	
+	/**
+	 * Kilomètrage de la voiture lors du plein
+	 */
 	private int kilometers;
 	
 	/**
@@ -46,8 +77,9 @@ public class Plein implements Comparable<Plein>, Serializable {
 		int h = 0, minutes = 0;
 		int firstDash = date.indexOf(SEPARATOR);
 		int secDash = date.indexOf(SEPARATOR, firstDash + 1);
-		if(firstDash == 0 || secDash == 0) 
+		if(firstDash == 0 || secDash == 0)  {
 			throw new IllegalArgumentException(date + " n'est pas une date valide!");
+		}
 		int day = Integer.parseInt(date.substring(0, firstDash));
 		int month = Integer.parseInt(date.substring(firstDash + 1, secDash));
 		int year = Integer.parseInt(date.substring(secDash + 1));
@@ -64,14 +96,28 @@ public class Plein implements Comparable<Plein>, Serializable {
 		this.kilometers = kilometers;
 	}
 
+	/**
+	 * Retourne l'objet Date modélisant la date de ce Plein
+	 * @return 
+	 *		Un objet date contenant la date du plein
+	 */
 	public Date getDate() {
-		return date;
+		return (Date) date.clone();
 	}
 	
+	/**
+	 * Retourne la date du plein sous forme de String
+	 * @return 
+	 *		Une String contenant la date du plein au format dd-mm-yy
+	 */
 	public String getDateString() {
 		return daySdf.format(date);
 	}
 	
+	/**
+	 * Retourne l'heure du plein sous forme de String
+	 * @return 
+	 */
 	public String getHourString() {
 		return hourSdf.format(date);
 	}
@@ -80,16 +126,32 @@ public class Plein implements Comparable<Plein>, Serializable {
 		return (Calendar) calendar.clone();
 	}
 
+	/**
+	 * Mutateur pour la date du plein
+	 * @param date 
+	 *		Nouvelle date du plein
+	 */
 	public void setDate(Date date) {
-		if(date.after(new Date(System.currentTimeMillis()))) 
+		if(date.after(new Date(System.currentTimeMillis()))) {
 			throw new IllegalArgumentException("Vous ne pouvez pas enregistrer un plein dans le futur");
+		}
 		this.date = date;
 	}
 
+	/**
+	 * Accesseur pour la quantité de fuel
+	 * @return 
+	 *		La quantité de fuel pour ce plein
+	 */
 	public double getFuelAmount() {
 		return fuelAmount;
 	}
 	
+	/**
+	 * Mutateur pour le kilomètrage lors de ce Plein
+	 * @param km 
+	 *		Le nouveau kilomètrage pour ce Plein
+	 */
 	public void setKilometers(int km) {
 		kilometers = km;
 	}
@@ -109,19 +171,31 @@ public class Plein implements Comparable<Plein>, Serializable {
 		return p.kilometers - kilometers;
 	}
 
+	/**
+	 * Mutateur pour la quantité d'essence
+	 * @param fuelAmount 
+	 *		La nouvelle quantité de fuel du plein
+	 */
 	public void setFuelAmount(double fuelAmount) {
-		if(fuelAmount < 0) 
+		if(fuelAmount < 0) {
 			throw new IllegalArgumentException("La quantité d'essence ne peut pas être négative !");
+		}
 		this.fuelAmount = fuelAmount;
 	}
 
+	/**
+	 * Accesseur pour le prix du plein
+	 * @return 
+	 *		Le prix du plein
+	 */
 	public double getPrice() {
 		return price;
 	}
 
 	public void setPrice(double price) {
-		if(price < 0)
+		if(price < 0) {
 			throw new IllegalArgumentException("Le prix d'un plein ne peut pas être négatif !");
+		}
 		this.price = price;
 	}
 	
@@ -130,28 +204,45 @@ public class Plein implements Comparable<Plein>, Serializable {
 		return 0;
 	}
 	
+	/**
+	 * Vérifie si les deux pleins sont strictement identiques
+	 * (même jour, heure, prix, kilomètrages, litre)
+	 * @param p
+	 * @return
+	 *		true si les pleins sont identiques false sinon
+	 */
 	@Override
 	public boolean equals(Object p) {
 		Plein plein;
-		if(p == null)
+		if(p == null) {
 			return false;
+		}
+		if( !(p instanceof Plein) ) {
+			return false;
+		}
 		try {
 			plein = (Plein) p;
 		} catch (ClassCastException e) {
 			return false;
 		}
-		if(fuelAmount != plein.fuelAmount)
+		if(fuelAmount != plein.fuelAmount) {
 			return false;
-		if(price != plein.price)
+		}
+		if(price != plein.price) {
 			return false;
-		if(calendar.get(Calendar.DAY_OF_MONTH) != plein.calendar.get(Calendar.DAY_OF_MONTH))
+		}
+		if(calendar.get(Calendar.DAY_OF_MONTH) != plein.calendar.get(Calendar.DAY_OF_MONTH)) {
 			return false;
-		if(calendar.get(Calendar.MONTH) != plein.calendar.get(Calendar.MONTH))
+		}
+		if(calendar.get(Calendar.MONTH) != plein.calendar.get(Calendar.MONTH)) {
 			return false;
-		if(calendar.get(Calendar.YEAR) != plein.calendar.get(Calendar.YEAR))
+		}
+		if(calendar.get(Calendar.YEAR) != plein.calendar.get(Calendar.YEAR)) {
 			return false;
-		if(kilometers != plein.kilometers)
+		}
+		if(kilometers != plein.kilometers)  {
 			return false;
+		}
 		return true;
 	}
 	
@@ -170,12 +261,15 @@ public class Plein implements Comparable<Plein>, Serializable {
 	@Override
 	public int compareTo(Plein p) {
 		int out = 0;
-		if(p.equals(this))
+		if(p.equals(this)) {
 			out = 0;
-		else if(p.date.after(date)) 
+		}
+		else if(p.date.after(date)) {
 			out = -1;
-		else if(p.date.before(date))
+		}
+		else if(p.date.before(date)) {
 			out = 1;
+		}
 		return out;
 	}
 

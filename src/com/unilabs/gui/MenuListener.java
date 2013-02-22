@@ -12,6 +12,7 @@ import java.awt.event.ActionListener;
  *
  */
 public class MenuListener implements ActionListener {
+	@Override
 	public void actionPerformed(ActionEvent e) {
 		try {
 			JMenuActionItem source = (JMenuActionItem) e.getSource();
@@ -22,7 +23,7 @@ public class MenuListener implements ActionListener {
 			String message = ((e1.getLocalizedMessage() == null) ? 
 						"Aucune information (" + e1.getClass() + ")" : e1.getLocalizedMessage());
 			Message.showErrorMessage("Erreur", "Une erreur s'est produite : \n" + message);
-			e1.printStackTrace();
+			e1.printStackTrace(System.out);
 		}
 	}
 }

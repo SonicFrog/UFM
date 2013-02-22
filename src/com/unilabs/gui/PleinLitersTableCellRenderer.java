@@ -6,11 +6,12 @@ import java.awt.Component;
 import javax.swing.JTable;
 import javax.swing.table.DefaultTableCellRenderer;
 
+/**
+ * Dessinateur pour les cellules d'un tableau de pleins
+ * @version 2.0
+ * @author Ogier
+ */
 public class PleinLitersTableCellRenderer extends DefaultTableCellRenderer {
-
-	/**
-	 * Serial UID
-	 */
 	private static final long serialVersionUID = -8959118381681562051L;
 
 	@Override

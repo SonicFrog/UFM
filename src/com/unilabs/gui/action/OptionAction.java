@@ -6,8 +6,13 @@ import com.unilabs.entities.UnilabsFleetManager;
 import com.unilabs.options.OptionDialog;
 import com.unilabs.options.OptionStorage;
 
+/**
+ * Action pour afficher les options
+ * @author Ogier
+ */
 public class OptionAction implements GUIAction {
 
+	@Override
 	public void execute() {
 		UnilabsFleetManager ufm = UnilabsFleetManager.getInstance();
 		OptionStorage os = ufm.getOptions();

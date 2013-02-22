@@ -17,6 +17,12 @@ import com.unilabs.gui.dialog.FleetInformationDialog;
 import com.unilabs.processing.ClientSorter;
 import com.unilabs.processing.FleetAverageCalculator;
 
+/**
+ * Action pour afficher des informations pour les voitures associées à un certains client
+ * au travers d'un menu déroulant contenant tout les numéro client
+ * 
+ * @author Ogier
+ */
 public class ClientAverageDropdownAction extends JDialog implements GUIAction, ActionListener {
 
 	private static final long serialVersionUID = 2909546065420153392L;
@@ -25,16 +31,20 @@ public class ClientAverageDropdownAction extends JDialog implements GUIAction, A
 	private JPanel up, down;
 	private JButton ok = new JButton("Ok"), cancel = new JButton("Annuler");
 
+	/**
+	 * Instancie l'action
+	 */
 	public ClientAverageDropdownAction() {
 		setTitle("Selectionnez votre numéro client");
 		setLocationRelativeTo(null);
 		setSize(new Dimension(300, 100));
 		setResizable(false);
 		setLayout(new BorderLayout());
-		cancel.addActionListener(this);
-		ok.addActionListener(this);
 	}
 
+	/**
+	 * Construit le selectionneur de numéro client
+	 */
 	private void init() {
 		cbox = new JComboBox<>();
 		if(up != null) {
@@ -52,13 +62,17 @@ public class ClientAverageDropdownAction extends JDialog implements GUIAction, A
 		up.add(cbox);
 		add(up, BorderLayout.NORTH);
 		add(down, BorderLayout.SOUTH);
+		cancel.addActionListener(this);
+		ok.addActionListener(this);
 	}
 
+	@Override
 	public void execute() {
 		init();
 		setVisible(true);
 	}
 
+	@Override
 	public void actionPerformed(ActionEvent e) {
 		setVisible(false);
 		if(e.getSource() == ok) {

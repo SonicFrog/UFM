@@ -12,7 +12,13 @@ public class ConsoGraph extends GraphPanel {
 
 	private static final long serialVersionUID = 9120109065495915103L;
 
-	public ConsoGraph(UnilabsCar data) {		super(data);
+	/**
+	 * Instancie un dessinateur de graph qui représente la consommation
+	 * @param data 
+	 *		La voiture pour laquelle on dessine un graphe
+	 */
+	public ConsoGraph(UnilabsCar data) {
+		super(data);
 		for(Plein p : data.getPleins()) {
 			if(p.getFuelAmount() > maximum) {
 				maximum = (int) Math.ceil(p.getFuelAmount());

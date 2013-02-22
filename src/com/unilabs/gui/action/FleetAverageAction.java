@@ -5,6 +5,10 @@ import com.unilabs.gui.Message;
 import com.unilabs.gui.dialog.FleetInformationDialog;
 import com.unilabs.processing.FleetAverageCalculator;
 
+/**
+ * Action pour l'affichage des moyennes de toute la flotte
+ * @author Ogier
+ */
 public class FleetAverageAction implements GUIAction {
 
 	@Override

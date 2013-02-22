@@ -27,12 +27,18 @@ public class FileChooser extends JFileChooser {
 		setFileSelectionMode(JFileChooser.FILES_ONLY);
 	}
 	
+	/**
+	 * Instancie une nouveau file chooser avec comme dossier de démarrage le chemin spécifié
+	 * @param path 
+	 *		Le chemin de départ pour ce file chooser
+	 */
 	public FileChooser(String path) {
 		super(path);
 		lastFile = new File(path);
 		setFileSelectionMode(JFileChooser.FILES_ONLY);
 	}
 	
+	@Override
 	public File getSelectedFile() {
 		lastFile = super.getSelectedFile();
 		return lastFile;

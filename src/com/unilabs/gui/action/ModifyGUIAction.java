@@ -10,10 +10,11 @@ public class ModifyGUIAction implements GUIAction {
 	@Override
 	public void execute() {
 		UnilabsFleetManager ufm = UnilabsFleetManager.getInstance();
-		if(ufm.hasCars() && ufm.getSelectedCar() != -1) 
+		if(ufm.hasCars() && ufm.getSelectedCar() != -1) {
 			new CarInfoDialog(ufm.getGUI(), ufm.getRawCars().get(ufm.getSelectedCarPlate()));
-		//TODO fix it
-		else
+		}
+		else {
 			Message.showWarningMessage("Aucune voiture selectionnée");
+		}
 	}
 }

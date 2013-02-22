@@ -43,6 +43,9 @@ public class GraphFrame extends JFrame implements ActionListener {
 	private JMenuBar menu = new JMenuBar();
 
 
+	/**
+	 * Menu d'exportation
+	 */
 	private JMenuItem exportI = new JMenuItem("Enregistrer sous ...");
 
 	/**
@@ -56,6 +59,10 @@ public class GraphFrame extends JFrame implements ActionListener {
 	 */
 	private File printFile;
 
+	/**
+	 * Instancie une fenêtre d'affichage de graphe pour le GraphPanel spécifié
+	 * @param panel 
+	 */
 	public GraphFrame(GraphPanel panel) {
 		this.panel = panel;
 		initPrint();
@@ -63,6 +70,9 @@ public class GraphFrame extends JFrame implements ActionListener {
 		buildFrame();
 	}
 
+	/**
+	 * Construit la fenêtre
+	 */
 	private void buildFrame() {
 		setJMenuBar(menu);
 		setContentPane(panel);
@@ -72,6 +82,9 @@ public class GraphFrame extends JFrame implements ActionListener {
 		setVisible(true);
 	}
 
+	/**
+	 * Initialise le sous système d'impression
+	 */
 	private void initPrint() {
 		GraphWriter gw = new GraphWriter(panel);
 		try {
@@ -84,6 +97,9 @@ public class GraphFrame extends JFrame implements ActionListener {
 		}
 	}
 	
+	/**
+	 * Construit le menu
+	 */
 	private void buildMenu() {
 		menu.add(export);
 		exportI.addActionListener(this);
@@ -91,6 +107,7 @@ public class GraphFrame extends JFrame implements ActionListener {
 		export.add(print);
 	}
 
+	@Override
 	public void actionPerformed(ActionEvent e) {
 		JFileChooser jfc = new JFileChooser();
 		GraphWriter gw;

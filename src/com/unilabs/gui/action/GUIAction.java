@@ -8,5 +8,8 @@ package com.unilabs.gui.action;
  *
  */
 public interface GUIAction {
+	/**
+	 * Execute l'action stocké dans cet objet
+	 */
 	public void execute();
 }

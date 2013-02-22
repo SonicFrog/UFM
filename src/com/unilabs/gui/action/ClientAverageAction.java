@@ -9,18 +9,21 @@ import com.unilabs.processing.ClientSorter;
 import com.unilabs.processing.FleetAverageCalculator;
 
 /**
- * 
+ * Action pour afficher les moyennes pour un numéro client particulier
  * @author Ogier
+ * @deprecated 
  *
  */
 public class ClientAverageAction implements GUIAction {
 
+	@Override
 	public void execute() {
 		int client = 0;
 		try {
 			String ret = JOptionPane.showInputDialog(UnilabsFleetManager.getInstance().getGUI(), "Tapez le numéro client :");
-			if(ret == null)
+			if(ret == null) {
 				return;
+			}
 			client = Integer.parseInt(ret);
 		} catch (NumberFormatException e) {
 			throw new RuntimeException("Veuillez taper un nombre");

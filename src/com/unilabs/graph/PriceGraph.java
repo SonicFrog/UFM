@@ -19,11 +19,17 @@ import com.unilabs.entities.UnilabsCar;
 @SuppressWarnings("serial")
 public class PriceGraph extends GraphPanel {
 
+	/**
+	 * Instancie un dessinateur de graphe de prix
+	 * @param data 
+	 *		La voiture pour laquelle on dessine un graphe de prix
+	 */
 	public PriceGraph(UnilabsCar data) {
 		super(data);
 		for(Plein p : data.getPleins()) {
-			if(p.getPrice() > maximum)
+			if(p.getPrice() > maximum) {
 				maximum = (int) Math.ceil(p.getPrice());
+			}
 		}
 	}
 

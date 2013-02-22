@@ -7,6 +7,10 @@ import com.unilabs.gui.Message;
 import com.unilabs.gui.dialog.ExportDialog;
 import com.unilabs.processing.TableCreator;
 
+/**
+ * Action pour l'exportation d'un tableau contenant les moyenness
+ * @author Ogier
+ */
 public class ExportGUIAction implements GUIAction {
 
 	@Override
