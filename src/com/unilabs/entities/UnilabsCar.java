@@ -1,11 +1,11 @@
 package com.unilabs.entities;
 
-import java.io.Serializable;
 import java.util.ArrayList;
 import java.util.Iterator;
 import java.util.TreeSet;
 
 import com.unilabs.security.PlateChecker;
+import java.util.Objects;
 
 /**
  * Classe représentant une voiture du parc unilabs
@@ -16,7 +16,7 @@ import com.unilabs.security.PlateChecker;
  * @see PlateChecker
  *
  */
-public class UnilabsCar implements Serializable {
+public class UnilabsCar {
 
 	/**
 	 * Serial UID
@@ -166,6 +166,22 @@ public class UnilabsCar implements Serializable {
 		this.numeroClient = numeroClient;
 	}
 	
+	/**
+	 * Méthode pour échanger le numéro client entre deux voitures
+	 * @param c 
+	 *			La voiture avec lequel cette voiture doit échanger son numéro client
+	 */
+	public boolean swap(UnilabsCar c) {
+		if(numeroClient == c.numeroClient) {
+			return false;
+		}
+		int buf = c.numeroClient;
+		c.numeroClient = numeroClient;
+		numeroClient = buf;
+		return true;
+	}
+	
+	@Override
 	public boolean equals(Object c) {
 		if( !(c instanceof UnilabsCar)) {
 			return false;
@@ -187,5 +203,14 @@ public class UnilabsCar implements Serializable {
 			}
 		}
 		return true;
+	}
+
+	@Override
+	public int hashCode() {
+		int hash = 7;
+		hash = 79 * hash + this.numeroClient;
+		hash = 79 * hash + Objects.hashCode(this.plaque);
+		hash = 79 * hash + Objects.hashCode(this.pleins);
+		return hash;
 	}
 }
